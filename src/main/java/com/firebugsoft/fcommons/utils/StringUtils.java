@@ -4,11 +4,14 @@ import java.lang.reflect.Field;
 
 import com.firebugsoft.fcommons.utils.def.Ascii;
 
+/**
+ * @author felix
+ */
 public final class StringUtils {
     private StringUtils() {}
 
     /**
-     * 首字母改大写
+     * 首字母 改 大写
      * 如:user => User
      */
     public static final String toUpperFirst(final String s) {
@@ -18,7 +21,7 @@ public final class StringUtils {
     }
 
     /**
-     * 首字母改小写
+     * 首字母 改 小写
      * 如:User => user
      */
     public static final String toLowerFirst(final String s) {
@@ -74,23 +77,24 @@ public final class StringUtils {
     }
 
     /**
-     * 属性名称 转 get方法
+     * 属性名称 转 get方法名
      * 如: userName => getUserName
      */
-    public static final String toGet(final String fieldName) {
+    public static final String toGetMethod(final String fieldName) {
         return "get" + toUpperFirst(fieldName);
     }
 
     /**
-     * 属性名称 转 set方法
+     * 属性名称 转 set方法名
      * 如: userName => setUserName
      */
-    public static final String toSet(final String fieldName) {
+    public static final String toSetMethod(final String fieldName) {
         return "set" + toUpperFirst(fieldName);
     }
+
     /**
      * pojo对象 转 String
-     * 如: id:1, name:felix, pwd:fpwd 
+     * 如: id:1, name:felix, pwd:fpwd
      */
     public static final String toString(Object pojo) {
         StringBuilder s = new StringBuilder();
@@ -103,7 +107,7 @@ public final class StringUtils {
             String name = fs[i].getName();
             s.append(name).append(":");
             try {
-                s.append(cls.getDeclaredMethod(toGet(name)).invoke(pojo));
+                s.append(cls.getDeclaredMethod(toGetMethod(name)).invoke(pojo));
             } catch (Exception e) {}
         }
         return s.toString();

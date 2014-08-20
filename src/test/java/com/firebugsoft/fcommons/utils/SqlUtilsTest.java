@@ -20,9 +20,13 @@ public class SqlUtilsTest {
         Assert.assertEquals(export, sql);
     }
     @Test
-    public void getSqlUpdate() {
+    public void getSqlUpdateById() {
         List<Object> args = new LinkedList<Object>();
-        System.out.println(SqlUtils.getSqlUpdateById(user, args));
+        String sql = "UPDATE user SET name=?, pwd=? WHERE id=?";
+        Assert.assertEquals(sql, SqlUtils.getSqlUpdateById(user, args));
+        Assert.assertEquals(user.getName(), args.get(0));
+        Assert.assertEquals(user.getPwd(), args.get(1));
+        Assert.assertEquals(user.getId(), args.get(2));
     }
 }
 

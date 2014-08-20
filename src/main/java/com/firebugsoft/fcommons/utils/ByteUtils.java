@@ -6,46 +6,58 @@ import java.util.List;
 
 import com.firebugsoft.fcommons.utils.def.Ascii;
 
-public class ByteUtils {
+/**
+ * @author felix
+ */
+public final class ByteUtils {
     private ByteUtils() {}
 
-    public static boolean isUpperCase(byte b) {
+    /** 判断是否是大写字母 */
+    public static final boolean isUpperCase(byte b) {
         return (Ascii.A <= b) && (b <= Ascii.Z);
     }
 
-    public static boolean isLowerCase(byte b) {
+    /** 判断是否是小写字母 */
+    public static final boolean isLowerCase(byte b) {
         return (Ascii.a <= b) && (b <= Ascii.z);
     }
 
-    public static byte toUpperCase(byte b) {
+    /** 小写字母 转 大写字母 */
+    public static final byte toUpperCase(byte b) {
         return ByteUtils.isLowerCase(b) ? (b -= 0x20) : b;
     }
 
-    public static byte toLowerCase(byte b) {
+    /** 大写字母 转 小写字母 */
+    public static final byte toLowerCase(byte b) {
         return ByteUtils.isUpperCase(b) ? (b += 0x20) : b;
     }
 
-    public static void toLowerCase(byte[] bs) {
-        for (int i = 0; i < bs.length; i++) {
-            bs[i] = ByteUtils.toLowerCase(bs[i]);
-        }
-    }
-    
-    public static void toUpperCase(byte[] bs) {
+    /** 小写字母 转 大写字母 */
+    public static final void toUpperCase(byte[] bs) {
         for (int i = 0; i < bs.length; i++) {
             bs[i] = ByteUtils.toUpperCase(bs[i]);
         }
     }
-    
-    public static void toLowerFirst(byte[] bs) {
-        bs[0] = ByteUtils.toLowerCase(bs[0]);
+
+    /** 大写字母 转 小写字母 */
+    public static final void toLowerCase(byte[] bs) {
+        for (int i = 0; i < bs.length; i++) {
+            bs[i] = ByteUtils.toLowerCase(bs[i]);
+        }
     }
-    
-    public static void toUpperFirst(byte[] bs) {
+
+    /** 首字母 转 大写字母 */
+    public static final void toUpperFirst(byte[] bs) {
         bs[0] = ByteUtils.toUpperCase(bs[0]);
     }
 
-    public static int indexOf(byte[] source, byte[] findContent, int startIndex) {
+    /** 首字母 转 小写字母 */
+    public static final void toLowerFirst(byte[] bs) {
+        bs[0] = ByteUtils.toLowerCase(bs[0]);
+    }
+
+    /** 在source中，从startIndex开始，区分大小写查找第1个findContent的下标 */
+    public static final int indexOf(byte[] source, byte[] findContent, int startIndex) {
         int length = source.length - findContent.length + 1;
         for (int i = startIndex; i < length; i++) {
             boolean isSame = true;
@@ -56,27 +68,14 @@ public class ByteUtils {
                 }
             }
             if (isSame) {
-                i = i + findContent.length - 1;
                 return i;
             }
         }
         return -1;
     }
 
-    public static List<Integer> indexesOf(byte[] source, byte[] findContent, int startIndex) {
-        List<Integer> indexes = new LinkedList<Integer>();
-        while (true) {
-            int index = ByteUtils.indexOf(source, findContent, startIndex);
-            if (index == -1) {
-                break;
-            }
-            indexes.add(index);
-            startIndex = index + findContent.length;
-        }
-        return indexes;
-    }
-
-    public static int ignoreIndexOf(byte[] source, byte[] findContent, int startIndex) {
+    /** 在source中，从startIndex开始，不区分大小写查找第1个findContent的下标 */
+    public static final int ignoreIndexOf(byte[] source, byte[] findContent, int startIndex) {
         ByteUtils.toLowerCase(findContent);
         int length = source.length - findContent.length + 1;
         for (int i = startIndex; i < length; i++) {
@@ -89,14 +88,28 @@ public class ByteUtils {
                 }
             }
             if (isSame) {
-                i = i + findContent.length - 1;
                 return i;
             }
         }
         return -1;
     }
 
-    public static List<Integer> ignoreIndexesOf(byte[] source, byte[] findContent, int startIndex) {
+    /** 在source中，从startIndex开始，区分大小写查找所有findContent的下标 */
+    public static final List<Integer> indexesOf(byte[] source, byte[] findContent, int startIndex) {
+        List<Integer> indexes = new LinkedList<Integer>();
+        while (true) {
+            int index = ByteUtils.indexOf(source, findContent, startIndex);
+            if (index == -1) {
+                break;
+            }
+            indexes.add(index);
+            startIndex = index + findContent.length;
+        }
+        return indexes;
+    }
+
+    /** 在source中，从startIndex开始，不区分大小写查找所有findContent的下标 */
+    public static final List<Integer> ignoreIndexesOf(byte[] source, byte[] findContent, int startIndex) {
         List<Integer> indexes = new LinkedList<Integer>();
         while (true) {
             int index = ByteUtils.ignoreIndexOf(source, findContent, startIndex);
@@ -109,7 +122,8 @@ public class ByteUtils {
         return indexes;
     }
 
-    public static byte[] replaceFirst(byte[] source, byte[] findContent, byte[] replaceContent) {
+    /** 在source中，区分大小写查找第1个findContent替换为replaceContent */
+    public static final byte[] replaceFirst(byte[] source, byte[] findContent, byte[] replaceContent) {
         Integer index = ByteUtils.indexOf(source, findContent, 0);
         if (index == -1) {
             return source;
@@ -117,7 +131,8 @@ public class ByteUtils {
         return ByteUtils.replace(source, findContent, replaceContent, index);
     }
 
-    public static byte[] ignoreReplaceFirst(byte[] source, byte[] findContent, byte[] replaceContent) {
+    /** 在source中，不区分大小写查找第1个findContent替换为replaceContent */
+    public static final byte[] ignoreReplaceFirst(byte[] source, byte[] findContent, byte[] replaceContent) {
         Integer index = ByteUtils.ignoreIndexOf(source, findContent, 0);
         if (index == -1) {
             return source;
@@ -125,7 +140,8 @@ public class ByteUtils {
         return ByteUtils.replace(source, findContent, replaceContent, index);
     }
 
-    public static byte[] replaceAll(byte[] source, byte[] findContent, byte[] replaceContent) {
+    /** 在source中，区分大小写查找所有findContent替换为replaceContent */
+    public static final byte[] replaceAll(byte[] source, byte[] findContent, byte[] replaceContent) {
         List<Integer> indexes = ByteUtils.indexesOf(source, findContent, 0);
         if (indexes.isEmpty()) {
             return source;
@@ -133,7 +149,8 @@ public class ByteUtils {
         return ByteUtils.replace(source, findContent, replaceContent, indexes);
     }
 
-    public static byte[] ignoreReplaceAll(byte[] source, byte[] findContent, byte[] replaceContent) {
+    /** 在source中，不区分大小写查找所有findContent替换为replaceContent */
+    public static final byte[] ignoreReplaceAll(byte[] source, byte[] findContent, byte[] replaceContent) {
         List<Integer> indexes = ByteUtils.ignoreIndexesOf(source, findContent, 0);
         if (indexes.isEmpty()) {
             return source;
@@ -144,7 +161,7 @@ public class ByteUtils {
     private static byte[] replace(byte[] source, byte[] findContent, byte[] replaceContent, Collection<Integer> indexes) {
         Integer[] is = new Integer[indexes.size()];
         is = indexes.toArray(is);
-        return replace(source, findContent, replaceContent, indexes);
+        return replace(source, findContent, replaceContent, is);
     }
 
     private static byte[] replace(byte[] source, byte[] findContent, byte[] replaceContent, Integer... indexes) {

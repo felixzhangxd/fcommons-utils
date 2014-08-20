@@ -40,20 +40,20 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void toGet() {
+    public void toGetMethod() {
         String field = "userName";
-        String get = StringUtils.toGet(field);
+        String get = StringUtils.toGetMethod(field);
         Assert.assertEquals("getUserName", get);
     }
 
     @Test
-    public void toSet() {
+    public void toSetMethod() {
         String field = "userName";
-        String get = StringUtils.toSet(field);
+        String get = StringUtils.toSetMethod(field);
         Assert.assertEquals("setUserName", get);
     }
     @Test
-    public void toString(User u) {
+    public void toString_() {
         String toString = StringUtils.toString(new User(1,"felix", "fpwd"));
         String expected = "id:1, name:felix, pwd:fpwd";
         Assert.assertEquals(expected , toString);
