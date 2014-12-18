@@ -43,7 +43,7 @@ public final class StringUtils {
         }
         return new String(bs, 0, index);
     }
-    
+
     /**
      * 下划线命名 转 小驼峰命名
      * 如: user_name => userName
@@ -81,7 +81,7 @@ public final class StringUtils {
      * 如: userName => getUserName
      */
     public static final String toGetMethod(String fieldName) {
-        return "get" + toUpperFirst(fieldName);
+        return "get" + StringUtils.toUpperFirst(fieldName);
     }
 
     /**
@@ -89,7 +89,7 @@ public final class StringUtils {
      * 如: userName => setUserName
      */
     public static final String toSetMethod(String fieldName) {
-        return "set" + toUpperFirst(fieldName);
+        return "set" + StringUtils.toUpperFirst(fieldName);
     }
 
     /**
@@ -107,7 +107,7 @@ public final class StringUtils {
             String name = fs[i].getName();
             s.append(name).append(":");
             try {
-                s.append(cls.getDeclaredMethod(toGetMethod(name)).invoke(pojo));
+                s.append(cls.getDeclaredMethod(StringUtils.toGetMethod(name)).invoke(pojo));
             } catch (Exception e) {}
         }
         return s.toString();

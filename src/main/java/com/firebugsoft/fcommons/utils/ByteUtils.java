@@ -161,7 +161,7 @@ public final class ByteUtils {
     private static byte[] replace(byte[] source, byte[] findContent, byte[] replaceContent, Collection<Integer> indexes) {
         Integer[] is = new Integer[indexes.size()];
         is = indexes.toArray(is);
-        return replace(source, findContent, replaceContent, is);
+        return ByteUtils.replace(source, findContent, replaceContent, is);
     }
 
     private static byte[] replace(byte[] source, byte[] findContent, byte[] replaceContent, Integer... indexes) {
